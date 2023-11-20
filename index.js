@@ -38,7 +38,9 @@ app.get("/schedule-date", async (req, res) => {
     inviter_image != null &&
     invitee_image != null
   ) {
-    const id = (await collection.insertOne(date)).insertedId;
+    const result = await collection.insertOne(date);
+    const id = result.insertedId;
+    console.log(id);
     console.log(`https://spade-date.onrender.com/get-date?id=${id}`);
     return res
       .status(200)
