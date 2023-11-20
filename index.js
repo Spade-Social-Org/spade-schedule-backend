@@ -20,6 +20,7 @@ app.get("/schedule-date", async (req, res) => {
   const invitee_image = query?.invitee_image;
   const date_timestamp = query?.date_timestamp;
   const place = query?.place;
+  const creator_id = query?.creator_id;
   const accepted = false;
   const date = {
     inviter,
@@ -29,6 +30,7 @@ app.get("/schedule-date", async (req, res) => {
     accepted,
     inviter_image,
     invitee_image,
+    creator_id,
   };
   if (
     inviter != null &&
@@ -36,7 +38,8 @@ app.get("/schedule-date", async (req, res) => {
     date_timestamp != null &&
     place != null &&
     inviter_image != null &&
-    invitee_image != null
+    invitee_image != null &&
+    creator_id != null
   ) {
     const result = await collection.insertOne(date);
     const id = result.insertedId;
@@ -53,6 +56,16 @@ app.get("/get-date", async (req, res) => {
   const { query } = req;
   const id = query?.id;
   const dates = await collection.find({ _id: new ObjectId(id) }).toArray();
+  if (dates) {
+    return res.status(200).json(dates);
+  }
+  return res.status(400).json({ message: "Date not found" });
+});
+
+app.get("/get-dates", async (req, res) => {
+  const { query } = req;
+  const creator_id = query?.creator_id;
+  const dates = await collection.find({ creator_id }).toArray();
   if (dates) {
     return res.status(200).json(dates);
   }
