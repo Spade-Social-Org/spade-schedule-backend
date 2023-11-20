@@ -77,6 +77,10 @@ app.get("/change-date-status", async (req, res) => {
   return res.status(400).json({ message: "Invalid request" });
 });
 
+app.get("/ping", (req, res) => {
+  return res.status(200).json({ message: "pong" });
+});
+
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}🎉🎉🎉`);
 });
