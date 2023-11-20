@@ -38,8 +38,11 @@ app.get("/schedule-date", async (req, res) => {
     inviter_image != null &&
     invitee_image != null
   ) {
-    collection.insertOne(date);
-    return res.status(200).json({ message: "Date scheduled successfully" });
+    const id = (await collection.insertOne(date)).insertedId;
+    console.log(`https://spade-date.onrender.com/get-date?id=${id}`);
+    return res
+      .status(200)
+      .json({ message: `https://spade-date.onrender.com/get-date?id=${id}` });
   }
   return res.status(400).json({ message: "Invalid request" });
 });
