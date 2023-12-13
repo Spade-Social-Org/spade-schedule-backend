@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const { MongoClient, ObjectId } = require("mongodb");
+const { Notify } = require("./notify");
 
 const mongodb_url = `mongodb+srv://${encodeURIComponent(
   process.env.MONGO_DB_USERNAME
@@ -22,6 +23,9 @@ app.get("/schedule-date", async (req, res) => {
   const place = query?.place;
   const creator_id = query?.creator_id;
   const accepted = false;
+  const token = query?.token;
+  const user_id = query?.user_id;
+  const user_date_id = query?.user_date_id;
   const date = {
     inviter,
     invitee,
@@ -31,6 +35,8 @@ app.get("/schedule-date", async (req, res) => {
     inviter_image,
     invitee_image,
     creator_id,
+    user_id,
+    user_date_id,
   };
   if (
     inviter != null &&
@@ -39,12 +45,14 @@ app.get("/schedule-date", async (req, res) => {
     place != null &&
     inviter_image != null &&
     invitee_image != null &&
-    creator_id != null
+    creator_id != null &&
+    token != null &&
+    user_id != null &&
+    user_date_id != null
   ) {
     const result = await collection.insertOne(date);
     const id = result.insertedId;
-    console.log(id);
-    console.log(`https://spade-date.onrender.com/get-date?id=${id}`);
+    await Notify(token, inviter, place, id, user_date_id, user_id);
     return res
       .status(200)
       .json({ message: `https://spade-date.onrender.com/get-date?id=${id}` });
