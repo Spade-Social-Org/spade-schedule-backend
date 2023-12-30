@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const { MongoClient, ObjectId } = require("mongodb");
-const { Notify } = require("./notify.cjs");
 
 const mongodb_url = `mongodb+srv://${encodeURIComponent(
   process.env.MONGO_DB_USERNAME
@@ -44,9 +43,36 @@ app.get("/schedule-date", async (req, res) => {
     const result = await collection.insertOne(date);
     const id = result.insertedId;
     await Notify(token, placeName, id, inviteeId, inviterId);
-    return res
-      .status(200)
-      .json({ message: `https://spade-date.onrender.com/get-date?id=${id}` });
+    const inviterName = await axios.get(
+      "https://spade-backend-v3-production.up.railway.app/api/v1/users/" +
+        user_id,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const response = await axios.post(
+      "https://spade-backend-v3-production.up.railway.app/api/v1/notifications",
+      {
+        description: `${inviterName} has invited you to ${placeName}!`,
+        date_id: id,
+        user_date_id: inviteeId,
+        user_id: inviterId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.status == 200) {
+      return res
+        .status(200)
+        .json({ message: `https://spade-date.onrender.com/get-date?id=${id}` });
+    } else {
+      return res.status(400).json({ message: "Error!" });
+    }
   }
   return res.status(400).json({ message: "Invalid request" });
 });
