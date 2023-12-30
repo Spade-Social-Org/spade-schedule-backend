@@ -57,8 +57,8 @@ app.get("/schedule-date", async (req, res) => {
       {
         description: `${inviterName} has invited you to ${placeName}!`,
         date_id: id,
-        user_date_id: inviteeId,
-        user_id: inviterId,
+        user_date_id: Number(inviteeId),
+        user_id: Number(inviterId),
       },
       {
         headers: {
