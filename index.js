@@ -16,15 +16,17 @@ app.get("/schedule-date", async (req, res) => {
   const { query } = req;
   const inviterId = query?.inviter;
   const inviteeId = query?.invitee;
-  const date_timestamp = query?.date_timestamp;
+  const date = query?.date_timestamp;
+  const time = query?.time;
   const placeId = query?.placeId;
   const placeName = query?.placeName;
   const accepted = false;
   const token = query?.token;
-  const date = {
+  const dateData = {
     inviteeId,
     inviterId,
-    date_timestamp,
+    date,
+    time,
     placeId,
     placeName,
     accepted,
@@ -32,12 +34,13 @@ app.get("/schedule-date", async (req, res) => {
   if (
     inviterId != null &&
     inviteeId != null &&
-    date_timestamp != null &&
+    date != null &&
+    time != null &&
     placeId != null &&
     placeName != null &&
     token != null
   ) {
-    const result = await collection.insertOne(date);
+    const result = await collection.insertOne(dateData);
     const id = result.insertedId;
     await Notify(token, placeName, id, inviteeId, inviterId);
     const inviterName = await axios.get(
