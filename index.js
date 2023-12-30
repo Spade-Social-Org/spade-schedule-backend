@@ -15,44 +15,35 @@ const collection = mongodb_client.db("dates_db").collection("dates");
 
 app.get("/schedule-date", async (req, res) => {
   const { query } = req;
-  const inviter = query?.inviter;
-  const invitee = query?.invitee;
-  const inviter_image = query?.inviter_image;
-  const invitee_image = query?.invitee_image;
+  const inviterId = query?.inviter;
+  const inviteeId = query?.invitee;
   const date_timestamp = query?.date_timestamp;
   const place = query?.place;
-  const creator_id = query?.creator_id;
+  const placeId = query?.placeId;
+  const placeName = query?.placeName;
   const accepted = false;
   const token = query?.token;
-  const user_id = query?.user_id;
-  const user_date_id = query?.user_date_id;
   const date = {
-    inviter,
-    invitee,
+    inviteeId,
+    inviterId,
     date_timestamp,
     place,
+    placeId,
+    placeName,
     accepted,
-    inviter_image,
-    invitee_image,
-    creator_id,
-    user_id,
-    user_date_id,
   };
   if (
-    inviter != null &&
-    invitee != null &&
+    inviterId != null &&
+    inviteeId != null &&
     date_timestamp != null &&
     place != null &&
-    inviter_image != null &&
-    invitee_image != null &&
-    creator_id != null &&
-    token != null &&
-    user_id != null &&
-    user_date_id != null
+    placeId != null &&
+    placeName != null &&
+    token != null
   ) {
     const result = await collection.insertOne(date);
     const id = result.insertedId;
-    await Notify(token, inviter, place, id, user_date_id, user_id);
+    await Notify(token, placeName, id, inviteeId, inviterId);
     return res
       .status(200)
       .json({ message: `https://spade-date.onrender.com/get-date?id=${id}` });
