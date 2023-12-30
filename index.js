@@ -67,9 +67,7 @@ app.get("/schedule-date", async (req, res) => {
       }
     );
     if (response.status == 200) {
-      return res
-        .status(200)
-        .json({ message: `https://spade-date.onrender.com/get-date?id=${id}` });
+      return res.status(200).json({ message: "OK" });
     } else {
       return res.status(400).json({ message: "Error!" });
     }
