@@ -68,9 +68,8 @@ app.get("/schedule-date", async (req, res) => {
     );
     if (response.status == 200) {
       return res.status(200).json({ message: "OK" });
-    } else {
-      return res.status(400).json({ message: "Invalid request" });
     }
+    return res.status(400).json({ message: "Invalid request" });
   }
 });
 
