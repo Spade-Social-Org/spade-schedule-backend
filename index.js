@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const { MongoClient, ObjectId } = require("mongodb");
-const { Notify } = require("./notify");
+const { Notify } = require("./notify.cjs");
 
 const mongodb_url = `mongodb+srv://${encodeURIComponent(
   process.env.MONGO_DB_USERNAME
