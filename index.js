@@ -25,7 +25,6 @@ app.get("/schedule-date", async (req, res) => {
     inviteeId,
     inviterId,
     date_timestamp,
-    place,
     placeId,
     placeName,
     accepted,
