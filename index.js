@@ -42,7 +42,6 @@ app.get("/schedule-date", async (req, res) => {
   ) {
     const result = await collection.insertOne(dateData);
     const id = result.insertedId;
-    await Notify(token, placeName, id, inviteeId, inviterId);
     const inviterName = await axios.get(
       "https://spade-backend-v3-production.up.railway.app/api/v1/users/" +
         user_id,
