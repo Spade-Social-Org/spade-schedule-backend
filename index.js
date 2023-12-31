@@ -15,12 +15,12 @@ const collection = mongodb_client.db("dates_db").collection("dates");
 
 app.get("/schedule-date", async (req, res) => {
   const { query } = req;
-  const inviterId = query?.inviterId;
-  const inviteeId = query?.inviteeId;
+  const inviterId = query?.inviterid;
+  const inviteeId = query?.inviteeid;
   const date = query?.date;
   const time = query?.time;
-  const placeId = query?.placeId;
-  const placeName = query?.placeName;
+  const placeId = query?.placeid;
+  const placeName = query?.placename;
   const accepted = false;
   const token = query?.token;
   const dateData = {
