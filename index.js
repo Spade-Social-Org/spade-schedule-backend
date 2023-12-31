@@ -42,6 +42,7 @@ app.get("/schedule-date", async (req, res) => {
   ) {
     const result = await collection.insertOne(dateData);
     const id = result.insertedId;
+    console.log("Date data: ", dateData);
     await Notify(token, placeName, id, inviteeId, inviterId);
     const inviterName = await axios.get(
       "https://spade-backend-v3-production.up.railway.app/api/v1/users/" +
@@ -70,6 +71,8 @@ app.get("/schedule-date", async (req, res) => {
       return res.status(200).json({ message: "OK" });
     }
     return res.status(400).json({ message: "Invalid request" });
+  } else {
+    return res.status(400).json({ message: "Incomplete parameters" });
   }
 });
 
