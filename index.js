@@ -45,7 +45,7 @@ app.get("/schedule-date", async (req, res) => {
     const id = result.insertedId;
     const inviterName = await axios.get(
       "https://spade-backend-v3-production.up.railway.app/api/v1/users/" +
-        user_id,
+        inviterId,
       {
         headers: {
           Authorization: `Bearer ${token}`,
