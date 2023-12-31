@@ -44,7 +44,7 @@ app.get("/schedule-date", async (req, res) => {
     const result = await collection.insertOne(dateData);
     const id = result.insertedId;
     const inviterName = await axios.get(
-      "https://spade-backend-v3-production.up.railway.app/api/v1/users/" +
+      "https://spade-backend-v3-production.up.railway.app/api/v1/users/profile/" +
         inviterId,
       {
         headers: {
@@ -55,7 +55,7 @@ app.get("/schedule-date", async (req, res) => {
     const response = await axios.post(
       "https://spade-backend-v3-production.up.railway.app/api/v1/notifications",
       {
-        description: `${inviterName} has invited you to ${placeName}!`,
+        description: `${inviterName.name} has invited you to ${placeName}!`,
         date_id: id,
         user_date_id: Number(inviteeId),
         user_id: Number(inviterId),
