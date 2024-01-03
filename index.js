@@ -55,7 +55,7 @@ app.get("/schedule-date", async (req, res) => {
     const response = await axios.post(
       "https://spade-backend-v3-production.up.railway.app/api/v1/notifications",
       {
-        description: `${inviterName.name} has invited you to ${placeName}!`,
+        description: `${inviterName.data.name} has invited you to ${placeName}!`,
         date_id: id,
         user_date_id: Number(inviteeId),
         user_id: Number(inviterId),
