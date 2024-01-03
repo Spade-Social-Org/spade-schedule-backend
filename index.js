@@ -51,7 +51,7 @@ app.get("/schedule-date", async (req, res) => {
         },
       }
     );
-    console.log("Inviter name:", inviterName.data.name);
+    console.log("Inviter name:", inviterName);
     const response = await axios.post(
       "https://spade-backend-v3-production.up.railway.app/api/v1/notifications",
       {
